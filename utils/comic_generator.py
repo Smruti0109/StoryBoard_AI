@@ -1,11 +1,12 @@
 import re
 import os
-import nltk
 from PIL import Image, ImageDraw, ImageFont
 from diffusers import StableDiffusionPipeline
 import torch
+import spacy
 
-nltk.download('punkt')
+# Load spaCy English model
+nlp = spacy.load("en_core_web_sm")
 
 # Load model once
 model_id = "CompVis/stable-diffusion-v1-4"
@@ -18,9 +19,10 @@ pipe = pipe.to("cuda" if torch.cuda.is_available() else "cpu")
 
 # Parse character: "dialogue"
 def parse_script(script):
-    lines = nltk.sent_tokenize(script)
+    doc = nlp(script)
     dialogue_pairs = []
-    for line in lines:
+    for sent in doc.sents:
+        line = sent.text.strip()
         match = re.match(r"(\w+):\s*\"([^\"]+)\"", line)
         if match:
             speaker, dialogue = match.groups()
