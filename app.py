@@ -17,4 +17,4 @@ prompt = st.text_input("🎭 Scene Description (for AI Image)", value="A teenage
 if st.button("✨ Generate Comic Panel"):
     with st.spinner("Generating..."):
         output_image = generate_comic(script, prompt)
-        st.image(output_image, caption="🖼️ Your Generated Comic Panel", use_column_width=True)
+        st.image(output_image, caption=" Your Generated Comic Panel", use_column_width=True)
